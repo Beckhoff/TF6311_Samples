@@ -1,0 +1,10 @@
+; UDPDEMOW32.def : Declares the module parameters.
+
+LIBRARY      "UdpDemoW32.DLL"
+
+EXPORTS
+	DllCanUnloadNow      PRIVATE
+	DllGetClassObject    PRIVATE
+	DllRegisterServer    PRIVATE
+	DllUnregisterServer	 PRIVATE
+	DllGetTcCtrl		 PRIVATE

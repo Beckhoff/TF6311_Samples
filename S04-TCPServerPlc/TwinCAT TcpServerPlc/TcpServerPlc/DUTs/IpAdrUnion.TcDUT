@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4019.0">
+  <DUT Name="IpAdrUnion" Id="{74f50984-7cee-4d59-acb7-443e0a659645}">
+    <Declaration><![CDATA[TYPE IpAdrUnion :
+UNION
+	ipadrIPStack : UDINT;
+	ipadr : ARRAY[0..3] OF BYTE;
+END_UNION
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
