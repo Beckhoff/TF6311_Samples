@@ -1,0 +1,356 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcModuleClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2009/05/TcModuleClass">
+  <Vendor>
+    <Name>C++ Module Vendor</Name>
+  </Vendor>
+  <DataTypes>
+    <DataType>
+      <Name GUID="{03010099-0000-0000-E000-000000000064}" TcBaseType="true">ITcIoTcpProtocolRecv</Name>
+      <BitSize X64="64">32</BitSize>
+      <BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+      <Method>
+        <Name>ReceiveData</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>nData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>pData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000018}">PVOID</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>ReceiveEvent</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>tcpEvent</Name>
+          <Type GUID="{7CECC506-F55F-4594-B611-972D650865D2}">TCPIP_EVENT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+      </Method>
+    </DataType>
+    <DataType>
+      <Name GUID="{7CECC506-F55F-4594-B611-972D650865D2}">TCPIP_EVENT</Name>
+      <BitSize>32</BitSize>
+      <BaseType GUID="{18071995-0000-0000-0000-000000000008}">UDINT</BaseType>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_NONE]]></Text>
+        <Enum>0</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_ERROR]]></Text>
+        <Enum>1</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_RESET]]></Text>
+        <Enum>2</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_TIMEOUT]]></Text>
+        <Enum>3</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_CONN_ESTABLISHED]]></Text>
+        <Enum>4</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_CONN_INCOMING]]></Text>
+        <Enum>5</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_CONN_CLOSED]]></Text>
+        <Enum>6</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_CONN_IDLE]]></Text>
+        <Enum>7</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_DATA_RECEIVED]]></Text>
+        <Enum>8</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_DATA_SENT]]></Text>
+        <Enum>9</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_KEEP_ALIVE]]></Text>
+        <Enum>10</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_LINKCONNECT]]></Text>
+        <Enum>11</Enum>
+      </EnumInfo>
+      <EnumInfo>
+        <Text><![CDATA[TCPIP_EVENT_LINKDISCONNECT]]></Text>
+        <Enum>12</Enum>
+      </EnumInfo>
+    </DataType>
+    <DataType>
+      <Name GUID="{03010098-0000-0000-E000-000000000064}" TcBaseType="true">ITcIoTcpProtocol</Name>
+      <BitSize X64="64">32</BitSize>
+      <BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+      <Method>
+        <Name>AllocSocket</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>ipRecv</Name>
+          <Type GUID="{03010099-0000-0000-E000-000000000064}">ITcIoTcpProtocolRecv</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}" ReferenceTo="true">UDINT</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>FreeSocket</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>Connect</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>ipRemoteAddress</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>tcpPort</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+          <BitSize>16</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>IsConnected</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>Close</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>Listen</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>tcpPort</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+          <BitSize>16</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>Accept</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>SendData</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>nData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>pData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000018}">PVOID</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>nSendData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}" ReferenceTo="true">UDINT</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>CheckReceived</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+      </Method>
+      <Method>
+        <Name>GetRemoteIpAddr</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>remoteIpAddr</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}" ReferenceTo="true">UDINT</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>GetFreeSendDataSize</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>socketId</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>nData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}" ReferenceTo="true">UDINT</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+      </Method>
+    </DataType>
+  </DataTypes>
+  <Groups>
+    <Group SortOrder="701">
+      <Name>C++</Name>
+      <DisplayName>C++ Modules</DisplayName>
+    </Group>
+  </Groups>
+  <Modules>
+    <Module GUID="{0ac9c3bc-178d-48ce-876a-10a6e176ca72}" Group="C++">
+      <Name>CTCPServer</Name>
+      <CLSID ClassFactory="TCPServer">{0ac9c3bc-178d-48ce-876a-10a6e176ca72}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>SO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03010099-0000-0000-e000-000000000064}">ITcIoTcpProtocolRecv</Type>
+        </Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter HideParameter="true">
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter>
+          <Name>Parameter</Name>
+          <SubItem>
+            <Name>data1</Name>
+            <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          </SubItem>
+          <SubItem>
+            <Name>data2</Name>
+            <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          </SubItem>
+          <SubItem>
+            <Name>data3</Name>
+            <Type GUID="{18071995-0000-0000-0000-00000000000e}">LREAL</Type>
+          </SubItem>
+          <PTCID>#x00000001</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+        <Parameter>
+          <Name>TcpServerPort</Name>
+          <BaseType GUID="{18071995-0000-0000-0000-000000000005}">UINT</BaseType>
+          <Default>
+            <Value>11000</Value>
+          </Default>
+          <PTCID>#x00000002</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+      </Parameters>
+      <DataAreas></DataAreas>
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer>
+        <InterfacePointer>
+          <PTCID>#x00000003</PTCID>
+          <Name>TcpProt</Name>
+          <Type GUID="{03010098-0000-0000-e000-000000000064}">ITcIoTcpProtocol</Type>
+          <ContextId>1</ContextId>
+        </InterfacePointer>
+      </InterfacePointers>
+      <DataPointers />
+      <Deployment />
+    </Module>
+  </Modules>
+  <Library>
+    <Name>TCPServer</Name>
+    <Version>0.0.0.1</Version>
+  </Library>
+</TcModuleClass>

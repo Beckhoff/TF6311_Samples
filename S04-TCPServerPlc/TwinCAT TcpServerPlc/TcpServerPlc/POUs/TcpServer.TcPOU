@@ -1,0 +1,237 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.12">
+  <POU Name="TcpServer" Id="{cdb28992-226b-4495-a7d3-d9abb9ad436e}" SpecialFunc="None">
+    <Declaration><![CDATA[{attribute 'c++_compatible'}
+FUNCTION_BLOCK TcpServer IMPLEMENTS ITcIoTcpProtocolRecv
+VAR_INPUT
+END_VAR
+VAR_OUTPUT
+END_VAR
+VAR
+    {attribute 'TcInitSymbol'}
+	oid: OTCID; 
+    ipTcp:       ITcIoTcpProtocol;
+    tcpPort:    UINT := 11000;
+    nReceivedPakets: UINT;	
+	socketId : UDINT;
+	nConnectionSocket : UDINT;
+	lastTcpEvent	: TCPIP_EVENT;
+	lastIpAdr : IpAdrUnion;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF ipTcp <> 0 THEN
+    ipTcp.CheckReceived();
+END_IF
+]]></ST>
+    </Implementation>
+    <Method Name="FB_exit" Id="{1b0bf640-356f-4299-a426-f99a9a00fb70}">
+      <Declaration><![CDATA[METHOD FB_exit : BOOL
+VAR_INPUT
+	bInCopyCode : BOOL; // if TRUE, the exit method is called for exiting an instance that is copied afterwards (online change).
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF ipTcp <> 0 AND NOT bInCopyCode THEN // no online change
+	IF (socketId <> 0) THEN  
+	    ipTcp.FreeSocket(socketId);
+	END_IF
+	IF (nConnectionSocket <> 0) THEN  
+		ipTcp.FreeSocket(nConnectionSocket);
+	END_IF
+	FW_SafeRelease(ADR(ipTcp));
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_init" Id="{22303cc1-aaaa-4c7f-ab22-82147188341b}">
+      <Declaration><![CDATA[METHOD FB_init : BOOL
+VAR_INPUT
+	bInitRetains : BOOL; // if TRUE, the retain variables are initialized (warm start / cold start)
+	bInCopyCode : BOOL;  // if TRUE, the instance afterwards gets moved into the copy code (online change)
+END_VAR
+VAR
+	ipSrv: ITComObjectServer;
+	hr : HRESULT;
+END_VAR]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF NOT bInCopyCode THEN // no online change
+	IF ipTcp = 0 THEN
+		hr := FW_ObjMgr_GetObjectInstance(	oid:=oid, 
+												iid:=TC_GLOBAL_IID_LIST.IID_ITcIoTcpProtocol, 
+												pipUnk:=ADR(ipTcp) );
+		IF SUCCEEDED(hr) AND ipTcp.AllocSocket(THIS^, socketId) = 0 THEN //startup -> open port 
+			IF (ipTcp.Listen(socketId, tcpPort) = 0) THEN
+            	FB_init := TRUE;
+			END_IF
+		ELSE 
+          	FB_init := FALSE;
+          	FW_SafeRelease(ADR(ipTcp));
+		END_IF
+	END_IF
+END_IF
+
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="FB_reinit" Id="{ec9ae0ac-7749-43bd-9fc8-0bd622d87c76}">
+      <Declaration><![CDATA[METHOD FB_reinit : BOOL
+VAR_INPUT
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[IF (ipTcp <> 0 AND socketId <> 0) THEN 			//reregister THIS^ for online changes  
+	ipTcp.AllocSocket(THIS^, socketId);
+END_IF
+IF (ipTcp <> 0 AND nConnectionSocket <> 0) THEN //reregister THIS^ for online changes  
+	ipTcp.AllocSocket(THIS^, nConnectionSocket);
+END_IF
+]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReceiveData" Id="{d5895914-9608-4940-9982-166e85ebf15e}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'ReceiveData'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD ReceiveData : HRESULT
+VAR_INPUT
+	socketId	: UDINT;
+	nData	: UDINT;
+	pData	: PVOID;
+END_VAR
+VAR 
+	sentBytes :UDINT; 
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[nReceivedPakets := nReceivedPakets+1;
+IF ipTcp <> 0 THEN
+	ipTcp.GetRemoteIpAddr(socketId, lastIpAdr.ipadrIPStack );
+    ipTcp.SendData(socketId, nData, pData, sentBytes); // send data back
+END_IF]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="ReceiveEvent" Id="{5fb5e2d2-e18b-4745-a7cd-c683261776df}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'ReceiveEvent'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD ReceiveEvent : HRESULT
+VAR_INPUT
+	socketId	: UDINT;
+	tcpEvent	: TCPIP_EVENT;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[CASE tcpEvent OF
+	TCPIP_EVENT_ERROR:
+	TCPIP_EVENT_RESET:
+		ipTcp.FreeSocket(socketId);
+	TCPIP_EVENT_TIMEOUT:
+		ipTcp.FreeSocket(socketId);
+	TCPIP_EVENT_CONN_CLOSED:
+		ipTcp.FreeSocket(socketId);
+	TCPIP_EVENT_CONN_INCOMING:
+		ipTcp.Accept(socketId);
+		nConnectionSocket := socketId; //store socketid; used at least in init during onlinechange
+	TCPIP_EVENT_KEEP_ALIVE:
+	TCPIP_EVENT_CONN_IDLE:
+	TCPIP_EVENT_DATA_SENT:
+	TCPIP_EVENT_DATA_RECEIVED:
+	TCPIP_EVENT_LINKCONNECT:
+	TCPIP_EVENT_LINKDISCONNECT:
+		ipTcp.FreeSocket(socketId);
+END_CASE; 
+lastTcpEvent := tcpEvent;
+ReceiveEvent := S_OK;]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcAddRef" Id="{51c1f3df-dd3c-41e5-8ec7-64786a5dbb48}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcAddRef'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD TcAddRef : UDINT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcQueryInterface" Id="{19aab4d1-a6df-49b6-9690-e82d475b78ff}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcQueryInterface'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD TcQueryInterface : HRESULT
+VAR_INPUT
+	iid	: REFERENCE TO IID;
+	pipItf	: POINTER TO PVOID;
+END_VAR
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <Method Name="TcRelease" Id="{7c6c243d-32b9-4b5b-8f0a-2781cdaf903e}">
+      <Declaration><![CDATA[{attribute 'object_name' := 'TcRelease'}
+{attribute 'c++_compatible'}
+{attribute 'signature_flag' := '33554688'}
+{attribute 'pack_mode' := '4'}
+{attribute 'show'}
+{attribute 'minimal_input_size' := '4'}
+{attribute 'checksuperglobal'}
+METHOD TcRelease : UDINT
+]]></Declaration>
+      <Implementation>
+        <ST><![CDATA[]]></ST>
+      </Implementation>
+    </Method>
+    <LineIds Name="TcpServer">
+      <LineId Id="3" Count="2" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcpServer.FB_exit">
+      <LineId Id="3" Count="9" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcpServer.FB_init">
+      <LineId Id="3" Count="15" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcpServer.FB_reinit">
+      <LineId Id="3" Count="5" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcpServer.ReceiveData">
+      <LineId Id="3" Count="3" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcpServer.ReceiveEvent">
+      <LineId Id="3" Count="19" />
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcpServer.TcAddRef">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcpServer.TcQueryInterface">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+    <LineIds Name="TcpServer.TcRelease">
+      <LineId Id="2" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcModuleClass xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://www.beckhoff.com/schemas/2009/05/TcModuleClass">
+  <Vendor>
+    <Name>C++ Module Vendor</Name>
+  </Vendor>
+  <DataTypes>
+    <DataType>
+      <Name GUID="{03010097-0000-0000-E000-000000000064}" TcBaseType="true">ITcIoUdpProtocol</Name>
+      <BitSize X64="64">32</BitSize>
+      <BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+      <Method>
+        <Name>SendData</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>ipDestAddr</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>udpDestPort</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+          <BitSize>16</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>udpSrcPort</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+          <BitSize>16</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>nData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>pData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000018}">PVOID</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>bCalcUdpCheckSum</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000030}" Optional="0">BOOL</Type>
+          <BitSize>8</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>pVlan</Name>
+          <Type GUID="{644F3385-C5F8-4BFB-B16A-FB99EAC8BB62}" PointerTo="1" Optional="0">ETYPE_VLAN_HEADER</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>CheckReceived</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+      </Method>
+      <Method>
+        <Name>RegisterReceiver</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>udpPort</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+          <BitSize>16</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>ipRecv</Name>
+          <Type GUID="{03010095-0000-0000-E000-000000000064}">ITcIoUdpProtocolRecv</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+      </Method>
+      <Method>
+        <Name>UnregisterReceiver</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>udpPort</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+          <BitSize>16</BitSize>
+        </Parameter>
+      </Method>
+      <Hides>
+        <Hide GUID="{ABDA7838-4061-4FB1-AF54-E402064B0925}" />
+      </Hides>
+    </DataType>
+    <DataType>
+      <Name GUID="{644F3385-C5F8-4BFB-B16A-FB99EAC8BB62}" IecDeclaration="UDINT;">ETYPE_VLAN_HEADER</Name>
+      <BitSize>32</BitSize>
+      <SubItem>
+        <Name>VLanType</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+        <Comment><![CDATA[0x8100 in host-order (0x0081)]]></Comment>
+        <BitSize>16</BitSize>
+        <BitOffs>0</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>VLanIdH</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000013}">BIT4</Type>
+        <BitSize>4</BitSize>
+        <BitOffs>16</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>Priority</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000012}">BIT3</Type>
+        <Comment><![CDATA[0 = lowest, 7 highest]]></Comment>
+        <BitSize>3</BitSize>
+        <BitOffs>21</BitOffs>
+      </SubItem>
+      <SubItem>
+        <Name>VLanIdL</Name>
+        <Type GUID="{18071995-0000-0000-0000-000000000017}">BIT8</Type>
+        <BitSize>8</BitSize>
+        <BitOffs>24</BitOffs>
+      </SubItem>
+    </DataType>
+    <DataType>
+      <Name GUID="{03010095-0000-0000-E000-000000000064}" TcBaseType="true">ITcIoUdpProtocolRecv</Name>
+      <BitSize X64="64">32</BitSize>
+      <BaseType GUID="{00000001-0000-0000-E000-000000000064}">ITcUnknown</BaseType>
+      <Method>
+        <Name>ReceiveData</Name>
+        <ReturnType GUID="{18071995-0000-0000-0000-000000000019}">HRESULT</ReturnType>
+        <ReturnBitSize>32</ReturnBitSize>
+        <Parameter>
+          <Name>ipAddr</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>udpDestPort</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+          <BitSize>16</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>udpSrcPort</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000005}">UINT</Type>
+          <BitSize>16</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>nData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000008}">UDINT</Type>
+          <BitSize>32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>pData</Name>
+          <Type GUID="{18071995-0000-0000-0000-000000000018}">PVOID</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+        <Parameter>
+          <Name>pVlan</Name>
+          <Type GUID="{644F3385-C5F8-4BFB-B16A-FB99EAC8BB62}" PointerTo="1" Optional="0">ETYPE_VLAN_HEADER</Type>
+          <BitSize X64="64">32</BitSize>
+        </Parameter>
+      </Method>
+      <Hides>
+        <Hide GUID="{50352CAB-C874-4EE5-8E3C-DF4ADD5B7DA3}" />
+      </Hides>
+    </DataType>
+  </DataTypes>
+  <Groups>
+    <Group SortOrder="701">
+      <Name>C++</Name>
+      <DisplayName>C++ Modules</DisplayName>
+    </Group>
+  </Groups>
+  <Modules>
+    <Module GUID="{f47d354c-1bc6-4e2a-84c7-81efa1d62025}" Group="C++">
+      <Name>CUdpDemo</Name>
+      <CLSID ClassFactory="UdpDemo">{f47d354c-1bc6-4e2a-84c7-81efa1d62025}</CLSID>
+      <Licenses>
+        <License>
+          <LicenseId>{304D006A-8299-4560-AB79-438534B50288}</LicenseId>
+          <Comment>TC3 C++</Comment>
+        </License>
+      </Licenses>
+      <InitSequence>SO</InitSequence>
+      <Contexts>
+        <Context>
+          <Id>1</Id>
+        </Context>
+      </Contexts>
+      <Interfaces>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{00000012-0000-0000-E000-000000000064}">ITComObject</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03000010-0000-0000-E000-000000000064}">ITcCyclic</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000012-0000-0000-E000-000000000064}">ITcADI</Type>
+        </Interface>
+        <Interface DisableCodeGeneration="true">
+          <Type GUID="{03000018-0000-0000-E000-000000000064}">ITcWatchSource</Type>
+        </Interface>
+        <Interface>
+          <Type GUID="{03010095-0000-0000-e000-000000000064}">ITcIoUdpProtocolRecv</Type>
+        </Interface>
+      </Interfaces>
+      <Parameters>
+        <Parameter HideParameter="true">
+          <Name>TraceLevelMax</Name>
+          <Comment>Controls the amount of log messages.</Comment>
+          <BaseType GUID="{8007ae3b-86bb-40f2-b385-ef87fcc239a4}">TcTraceLevel</BaseType>
+          <PTCID>#x03002103</PTCID>
+          <ContextId>1</ContextId>
+        </Parameter>
+      </Parameters>
+      <DataAreas />
+      <InterfacePointers>
+        <InterfacePointer>
+          <PTCID>#x03002060</PTCID>
+          <Name>CyclicCaller</Name>
+          <Type GUID="{0300001e-0000-0000-e000-000000000064}">ITcCyclicCaller</Type>
+        </InterfacePointer>
+        <InterfacePointer>
+          <PTCID>#x00000001</PTCID>
+          <Name>UdpProt</Name>
+          <Type GUID="{03010097-0000-0000-e000-000000000064}">ITcIoUdpProtocol</Type>
+          <ContextId>1</ContextId>
+        </InterfacePointer>
+        <InterfacePointer>
+          <PTCID>#x00000002</PTCID>
+          <Name>UdpProt2</Name>
+          <Type GUID="{03010097-0000-0000-e000-000000000064}">ITcIoUdpProtocol</Type>
+          <ContextId>1</ContextId>
+        </InterfacePointer>
+      </InterfacePointers>
+      <DataPointers />
+      <Deployment />
+    </Module>
+  </Modules>
+  <Library>
+    <Name>UdpDemo</Name>
+    <Version>0.0.0.1</Version>
+  </Library>
+</TcModuleClass>

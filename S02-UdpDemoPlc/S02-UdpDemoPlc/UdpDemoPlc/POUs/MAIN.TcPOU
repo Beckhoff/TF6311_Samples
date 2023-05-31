@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.0.34">
+  <POU Name="MAIN" Id="{f9351a7e-7ff5-47bf-9b6f-657a6a76e82c}" SpecialFunc="None">
+    <Declaration><![CDATA[PROGRAM MAIN
+VAR
+	udp1 : UdpReceiver;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[udp1(); ]]></ST>
+    </Implementation>
+  </POU>
+</TcPlcObject>
