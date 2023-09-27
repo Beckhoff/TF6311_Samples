@@ -83,7 +83,6 @@ END_IF]]></ST>
     <Method Name="ReceiveData" Id="{cb5b89bf-a2d8-4ac3-bd40-64d876626d0f}">
       <Declaration><![CDATA[{attribute 'object_name' := 'ReceiveData'}
 {attribute 'c++_compatible'}
-{attribute 'signature_flag' := '33554688'}
 {attribute 'pack_mode' := '4'}
 {attribute 'show'}
 {attribute 'minimal_input_size' := '4'}
@@ -108,7 +107,6 @@ END_IF]]></ST>
     <Method Name="TcAddRef" Id="{2d410f6b-c6bd-4033-8c18-8496c8308aff}">
       <Declaration><![CDATA[{attribute 'object_name' := 'TcAddRef'}
 {attribute 'c++_compatible'}
-{attribute 'signature_flag' := '33554688'}
 {attribute 'pack_mode' := '4'}
 {attribute 'show'}
 {attribute 'minimal_input_size' := '4'}
@@ -121,7 +119,6 @@ METHOD TcAddRef : UDINT
     <Method Name="TcQueryInterface" Id="{0544c61f-9985-4e5f-b52a-347332675914}">
       <Declaration><![CDATA[{attribute 'object_name' := 'TcQueryInterface'}
 {attribute 'c++_compatible'}
-{attribute 'signature_flag' := '33554688'}
 {attribute 'pack_mode' := '4'}
 {attribute 'show'}
 {attribute 'minimal_input_size' := '4'}
@@ -154,7 +151,6 @@ END_IF]]></ST>
     <Method Name="TcRelease" Id="{bb0886f8-6f09-4d5a-835f-a451f23c160e}">
       <Declaration><![CDATA[{attribute 'object_name' := 'TcRelease'}
 {attribute 'c++_compatible'}
-{attribute 'signature_flag' := '33554688'}
 {attribute 'pack_mode' := '4'}
 {attribute 'show'}
 {attribute 'minimal_input_size' := '4'}
